@@ -1,0 +1,21 @@
+{
+  "name": "light-memo",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pedrosa-Andre/light-memo.git"
+  },
+  "author": "Andre Matheus Pedrosa <andre.matheus.pedrosa@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/Pedrosa-Andre/light-memo/issues"
+  },
+  "homepage": "https://github.com/Pedrosa-Andre/light-memo#readme",
+  "dependencies": {
+    "parcel": "^2.8.3"
+  }
+}
