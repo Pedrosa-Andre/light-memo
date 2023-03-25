@@ -1,4 +1,3 @@
-const test = document.createElement('h1');
-test.innerHTML = "Hahahaha";
+import App from './App';
 
-document.getElementById('root').appendChild(test)
+document.getElementById('root').appendChild(App());
