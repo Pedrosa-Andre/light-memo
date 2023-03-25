@@ -7,24 +7,19 @@ function NavMenu() {
   });
   home.addEventListener('click', () => navTo('/'));
 
-  const login = createElement('button', {
-    textContent: 'Log In',
-  });
-  login.addEventListener('click', () => navTo('/login'));
-
   const about = createElement('button', {
     textContent: 'About',
   });
   about.addEventListener('click', () => navTo('/about'));
 
-  const newReminder = createElement('button', {
-    textContent: 'Add New Reminder',
+  const login = createElement('button', {
+    textContent: 'Log In',
   });
-  // newReminder.addEventListener('click', () => to be implemented);
+  login.addEventListener('click', () => navTo('/login'));
 
   const stickyNav = createElement('div', {
     className: 'sticky-nav'
-  }, [home, login, about, newReminder]);
+  }, [home, about, login]);
 
   return stickyNav;
 }

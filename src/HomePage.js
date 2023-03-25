@@ -2,10 +2,16 @@ import { createElement, navTo } from "./utils";
 
 function HomePage() {
 
-  const currentDate = createElement('div', {
+  const currentDate = createElement('p', {
     className: 'head-date',
     textContent: new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
   });
+  const newReminder = createElement('button', {
+    id: 'new-reminder-btn',
+    textContent: 'New Reminder',
+  });
+  // newReminder.addEventListener('click', () => to be implemented);
+  const heading = createElement('div', {className: 'main-heading'}, [currentDate, newReminder]);
   const divider = createElement('hr');
 
   function createCard() {
@@ -15,7 +21,7 @@ function HomePage() {
     return card;
   }
   const cardsContainer = createElement('div', {className: 'card-container'}, [createCard(), createCard(), createCard()]);
-  const mainDiv = createElement('div', {className: 'main-div'}, [currentDate, divider, cardsContainer]);
+  const mainDiv = createElement('div', {className: 'main-div'}, [heading , divider, cardsContainer]);
 
   return mainDiv;
 }
