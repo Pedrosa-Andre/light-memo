@@ -1,8 +1,6 @@
 
 import HomePage from "./HomePage";
 import About from "./About";
-import Login from "./Login";
-import Register from "./Register";
 import NotFoundPage from "./NotFoundPage";
 
 export function initRouter(mainView) {
@@ -20,14 +18,6 @@ export function initRouter(mainView) {
 
       case '#/about':
         updateView(About());
-        break;
-
-      case '#/login':
-        updateView(Login());
-        break;
-
-      case '#/register':
-        updateView(Register());
         break;
 
       default:
