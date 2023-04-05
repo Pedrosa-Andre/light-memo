@@ -1,7 +1,17 @@
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { clearEventListeners, createElement } from './utils';
+import { clearEventListeners, createElement, generateUserKey } from './utils';
 import { initRouter } from './router';
 import { auth } from './firebase';
+
+// localStorage.removeItem("userKey");
+if (!localStorage.getItem("userKey")) {
+  generateUserKey().then((userKey) => {
+    console.log('new id: ' + userKey);
+    localStorage.setItem("userKey", userKey);
+  });
+} else {
+  console.log('old id: ' + localStorage.getItem("userKey"));
+}
 
 function NavMenu() {
   const home = createElement('a', {

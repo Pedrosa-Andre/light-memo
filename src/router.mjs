@@ -12,7 +12,7 @@ export function initRouter(mainView) {
   }
 
   function hashToRoute(hash) {
-    console.log('-->' + hash);
+    console.log('--> ' + hash);
     switch (hash) {
       case '#/home':
         updateView(HomePage());
