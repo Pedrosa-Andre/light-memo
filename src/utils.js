@@ -17,16 +17,9 @@ export function createElement(type, props = {}, children = []) {
   return element;
 }
 
-// Function to be added to buttons and links for navigation on SPAs.
-// route: Relative route, such as "/page1" or "/404"
-// newEntry: If the route should or not add a new entry to the browser history.
-export function navTo (route, newEntry = true) {
-  // If route is the same as current page don't execute the rest.
-  if (window.location.pathname === route) return;
-  if (newEntry) {
-    history.pushState(null, null, route);
-  } else {
-    history.replaceState(null, null, route);
-  }
-  window.dispatchEvent(new PopStateEvent('popstate'));
+// Remove all event listeners by replacing the element with its clone.
+export function clearEventListeners(element) {
+  var old_element = element;
+  var new_element = old_element.cloneNode(true);
+  old_element.parentNode.replaceChild(new_element, old_element);
 }

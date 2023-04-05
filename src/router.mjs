@@ -11,21 +11,22 @@ export function initRouter(mainView) {
     mainView.appendChild(newView);
   }
 
-  function pathToRoute(path) {
-    switch (path) {
-      case '/':
+  function hashToRoute(hash) {
+    console.log('-->' + hash);
+    switch (hash) {
+      case '#/home':
         updateView(HomePage());
         break;
 
-      case '/about':
+      case '#/about':
         updateView(About());
         break;
 
-      case '/login':
+      case '#/login':
         updateView(Login());
         break;
 
-      case '/register':
+      case '#/register':
         updateView(Register());
         break;
 
@@ -34,21 +35,13 @@ export function initRouter(mainView) {
     }
   }
 
-  console.log('running router');
+  const defaultHash = window.location.hash || '#/home';
+  hashToRoute(defaultHash);
 
-  // Catch the navTo() and browser's prev/next arrows.
-  window.addEventListener('popstate', function(event) {
-    console.log(event);
-    console.log(window.location.pathname);
-    console.log('Popstate Listener');
-    pathToRoute(window.location.pathname);
+  window.addEventListener('hashchange', (evt) => {
+    const newUrl = new URL(evt.newURL);
+    const hash = newUrl.hash;
+
+    hashToRoute(hash);
   });
-
-  // Catch the <a> and manual entries on the browser.
-  window.addEventListener('load', function() {
-    console.log(window.location.pathname);
-    console.log('Load Listener');
-    pathToRoute(window.location.pathname);
-  });
-
 }

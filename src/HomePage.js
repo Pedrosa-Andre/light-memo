@@ -1,4 +1,4 @@
-import { createElement, navTo } from "./utils";
+import { createElement } from "./utils";
 
 function HomePage() {
 

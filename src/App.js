@@ -1,21 +1,26 @@
-import { createElement, navTo } from './utils';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { clearEventListeners, createElement } from './utils';
 import { initRouter } from './router';
+import { auth } from './firebase';
 
 function NavMenu() {
-  const home = createElement('button', {
+  const home = createElement('a', {
     textContent: 'Home',
+    className: 'button',
+    href: '/#/home',
   });
-  home.addEventListener('click', () => navTo('/'));
 
-  const about = createElement('button', {
+  const about = createElement('a', {
     textContent: 'About',
+    className: 'button',
+    href: '/#/about',
   });
-  about.addEventListener('click', () => navTo('/about'));
 
-  const login = createElement('button', {
+  const login = createElement('a', {
     textContent: 'Log In',
+    className: 'button',
+    id: 'loginBtn',
   });
-  login.addEventListener('click', () => navTo('/login'));
 
   const stickyNav = createElement('div', {
     className: 'sticky-nav'
@@ -29,7 +34,21 @@ function App() {
 
   initRouter(main);
 
-  return createElement('div', {className: 'what'}, [NavMenu(), main]);
+  return createElement('div', {}, [NavMenu(), main]);
 }
+
+onAuthStateChanged(auth, user => {
+  if (user != null) {
+    console.log(user.displayName + ' logged in');
+    loginBtn.innerHTML = 'Log Out';
+    loginBtn.addEventListener('click', async () => signOut(auth));
+    loginBtn.href = '/#/home'
+  } else {
+    console.log('no user');
+    loginBtn.innerHTML = 'Log In';
+    clearEventListeners(loginBtn); // TODO: Probably can be simplified.
+    loginBtn.href = '/#/login'
+  }
+})
 
 export default App;

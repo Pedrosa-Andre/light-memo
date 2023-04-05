@@ -1,7 +1,6 @@
-import { createElement, navTo } from "./utils";
-import app from "./firebase";
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-const auth = getAuth(app);
+import { createElement } from "./utils";
+import { auth } from "./firebase";
+import { AuthErrorCodes, signInWithEmailAndPassword } from "firebase/auth";
 
 function Login() {
 
@@ -11,27 +10,37 @@ function Login() {
   const emailInput = createElement('input', {type: 'email', name: 'userEmail', id: 'userEmail', required: 'true'});
   const passLabel = createElement('label', {for: 'userPass', textContent: 'Password'});
   const passInput = createElement('input', {type: 'password', name: 'userPass', id: 'userPass', required: 'true'});
-  const signInBtn = createElement('button', {type: 'submit', textContent: 'Sign In', id: 'signInBtn'});
-  const registerLink = createElement('a', {href: '/register', textContent: 'Not a member? Register here.'});
+  const signInBtn = createElement('button', {type: 'button', textContent: 'Sign In', id: 'signInBtn'});
+  const messageSpan = createElement('span', {id: 'messageSpan'});
+  const registerLink = createElement('a', {href: '/#/register', textContent: 'Not a member? Register here.'});
+
+  const signInForm = createElement('form', {}, [emailLabel, emailInput, passLabel, passInput, messageSpan, signInBtn, registerLink]);
+  const innerDiv = createElement('div', {className: 'inner-container'}, [signInForm]);
+
+  const mainDiv = createElement('div', {className: 'main-div'}, [h1, innerDiv]);
 
   const loginEmailPassword = async () => {
     const emailInput = userEmail.value;
     const passInput = userPass.value;
 
-    const userCredential = await signInWithEmailAndPassword(auth, emailInput, passInput);
-    console.log(userCredential.user);
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, emailInput, passInput);
+      window.location.href = '/#/home';
+      console.log(userCredential.user);
+    }
+    catch (error) {
+      console.log(error);
+      if (error.code == AuthErrorCodes.INVALID_PASSWORD) {
+        messageSpan.innerHTML = 'Password invalid';
+        // TODO: add "user not registered" msg.
+      } else {
+        messageSpan.innerHTML = `Error: ${error.message}`;
+      }
+    }
+
   }
 
   signInBtn.addEventListener("click", loginEmailPassword);
-  // TODO: remove it
-  signInBtn.addEventListener("click", function(event){
-    event.preventDefault()
-  });
-
-  const signInForm = createElement('form', {id: 'signInForm'}, [emailLabel, emailInput, passLabel, passInput, signInBtn, registerLink]);
-  const innerDiv = createElement('div', {className: 'inner-container'}, [signInForm]);
-
-  const mainDiv = createElement('div', {className: 'main-div'}, [h1, innerDiv]);
 
   return mainDiv;
 }
