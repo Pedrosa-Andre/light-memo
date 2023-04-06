@@ -6,12 +6,9 @@ function HomePage() {
     className: 'head-date',
     textContent: new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
   });
-  const newReminder = createElement('button', {
-    id: 'new-reminder-btn',
-    textContent: 'New Reminder',
-  });
-  // newReminder.addEventListener('click', () => to be implemented);
-  const heading = createElement('div', {className: 'main-heading'}, [currentDate, newReminder]);
+
+  const heading = createElement('div', {className: 'main-heading'}, [currentDate]);
+
   const divider = createElement('hr');
 
   function createCard() {

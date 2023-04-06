@@ -1,14 +1,18 @@
-import { createElement, generateUserKey } from './utils';
+import { createElement, generateUserKey, getUserKey, setUserKey } from './utils';
 import { initRouter } from './router';
+import Modals from './Modals';
 
-// localStorage.removeItem("userKey");
-if (!localStorage.getItem("userKey")) {
-  generateUserKey().then((userKey) => {
-    console.log('new id: ' + userKey);
-    localStorage.setItem("userKey", userKey);
+// DEBUG
+setUserKey('IDbbb');
+
+let userKey = getUserKey();
+if (!userKey) {
+  generateUserKey().then((key) => {
+    console.log('created new id: ' + key);
+    setUserKey(key);
   });
 } else {
-  console.log('old id: ' + localStorage.getItem("userKey"));
+  console.log('using old id: ' + userKey);
 }
 
 function NavMenu() {
@@ -24,19 +28,31 @@ function NavMenu() {
     href: '/#/about',
   });
 
+  const newRem = createElement('button', {
+    textContent: 'New Reminder',
+    className: 'button',
+  });
+
+  const openModal = function () {
+    newReminderModal.classList.remove("hidden");
+    modalOverlay.classList.remove("hidden");
+  };
+
+  newRem.addEventListener("click", openModal);
+
   const stickyNav = createElement('div', {
     className: 'sticky-nav'
-  }, [home, about]);
+  }, [home, about, newRem]);
 
   return stickyNav;
 }
 
 function App() {
-  const main = createElement('main', {}, []);
+  const main = createElement('main');
 
   initRouter(main);
 
-  return createElement('div', {}, [NavMenu(), main]);
+  return createElement('div', {}, [Modals(), NavMenu(), main]);
 }
 
 export default App;

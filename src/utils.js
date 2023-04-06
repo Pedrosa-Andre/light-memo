@@ -27,7 +27,7 @@ export function clearEventListeners(element) {
   old_element.parentNode.replaceChild(new_element, old_element);
 }
 
-// Creates an user key that is no on the database.
+// Creates an user key that is not on the database.
 export async function generateUserKey() {
 
   const dbRef = ref(database);
@@ -57,3 +57,10 @@ export async function generateUserKey() {
   return key;
 }
 
+export function getUserKey() {
+  return localStorage.getItem("userKey");
+}
+
+export function setUserKey(userKey) {
+  localStorage.setItem("userKey", userKey);
+}

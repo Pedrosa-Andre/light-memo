@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import { getAuth } from "firebase/auth";
+import { getDatabase, ref, set, onValue, remove } from "firebase/database";
+import { getUserKey } from "./utils";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -20,30 +21,39 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const database = getDatabase(app);
 
-function writeUserData(userId, name, email) {
+// DEBUG
+function writeUserData(userId) {
   const db = getDatabase();
   set(ref(db, 'users/' + userId), {
-    username: name,
-    email: email
+    reminders: {
+      
+    }
   });
 }
 
-writeUserData('IDaaa','andreA','a@a.com');
-writeUserData('IDbbb','andreB','a@b.com');
-writeUserData('IDbbb','andreC','a@c.com');
-writeUserData('IDccc','andreD','a@d.com');
-
-const starCountRef = ref(database, 'users/IDabc');
+// DEBUG keep
+const starCountRef = ref(database, 'users/' + getUserKey());
 onValue(starCountRef, (snapshot) => {
   const data = snapshot.val();
+  console.log('Changes on currentUser data:')
   console.log(data);
-  // updateStarCount(postElement, data);
 });
 
+// DEBUG
 const starCountRef2 = ref(database);
 onValue(starCountRef2, (snapshot) => {
   const data = snapshot.val();
   console.log(data);
 });
 
-writeUserData('IDabc','andre2','a@a.c');
+export function createReminder(userKey, title, message, time) {
+  set(ref(database, 'users/' + userKey + '/reminders/' + title), {
+    remTitle: title,
+    remMessage: message,
+    remTime: time,
+  }).then(
+    console.log('SUCCESS at createReminder()')
+  ).catch((error) => {
+    console.log('FAILURE at createReminder(): ' + error.message);
+  });
+}
