@@ -10,7 +10,6 @@ function createCard(key, title, time) {
   const div = createElement('div', {className: 'leftCardDiv'}, [cardTime, dellBtn]);
   const userKey = getUserKey();
   dellBtn.addEventListener("click", () => {
-    debugger
     removeReminder(userKey, key);
   });
 

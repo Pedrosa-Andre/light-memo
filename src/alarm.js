@@ -6,6 +6,8 @@ export function initAlarm() {
   console.log(alarmSound);
 
   function showAlarm(reminder) {
+    let a = document.getElementById(alarmBody);
+    if (!a) return;
     alarmBody.textContent = '';
     const heading = createElement('h2', {textContent: reminder[1]['remTitle']});
     const message = createElement('p', {textContent: reminder[1]['remMessage']});
@@ -49,8 +51,7 @@ export function initAlarm() {
 
   setInterval(function () {
     checkAlarm();
-    // DEBUG - set to 60000
-  },  5000)
+  },  60000)
 }
 
 

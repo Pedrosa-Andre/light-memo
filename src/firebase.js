@@ -54,7 +54,6 @@ export function createReminder(userKey, title, message, time) {
 }
 
 export function removeReminder(userKey, reminderKey) {
-  debugger
   remove(ref(database, 'users/' + userKey + '/reminders/' + reminderKey), {
   });
 }
