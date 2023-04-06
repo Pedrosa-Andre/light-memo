@@ -1,5 +1,6 @@
 import { createElement, generateUserKey, getUserKey, setUserKey } from './utils';
 import { initRouter } from './router';
+import { initAlarm } from './alarm';
 import Modals from './Modals';
 
 // DEBUG
@@ -49,9 +50,8 @@ function NavMenu() {
 
 function App() {
   const main = createElement('main');
-
   initRouter(main);
-
+  initAlarm();
   return createElement('div', {}, [Modals(), NavMenu(), main]);
 }
 

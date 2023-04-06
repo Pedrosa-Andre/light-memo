@@ -30,13 +30,12 @@ export function clearEventListeners(element) {
 // Creates an user key that is not on the database.
 export async function generateUserKey() {
 
-  const dbRef = ref(database);
   let allUserKeys;
-  await get(child(dbRef, 'users')).then((snapshot) => {
+  await get(child(ref(database), 'users')).then((snapshot) => {
     if (snapshot.exists()) {
       allUserKeys = Object.entries(snapshot.val()).map(x => x[0]);
     } else {
-      console.log("No data available");
+      console.log("No user keys available");
       return;
     }
   }).catch((error) => {
@@ -57,10 +56,20 @@ export async function generateUserKey() {
   return key;
 }
 
+export function setUserKey(userKey) {
+  localStorage.setItem("userKey", userKey);
+}
+
 export function getUserKey() {
   return localStorage.getItem("userKey");
 }
 
-export function setUserKey(userKey) {
-  localStorage.setItem("userKey", userKey);
+export function copyRemindersToSession(data) {
+  let dataJSON = JSON.stringify(data);
+  localStorage.setItem("userData", dataJSON);
+}
+
+export function getRemindersFromSession() {
+  let dataJSON = localStorage.getItem("userData");
+  return JSON.parse(dataJSON);
 }

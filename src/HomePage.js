@@ -1,3 +1,4 @@
+import { fillWithUserCards } from "./cards";
 import { createElement } from "./utils";
 
 function HomePage() {
@@ -11,14 +12,11 @@ function HomePage() {
 
   const divider = createElement('hr');
 
-  function createCard() {
-    const text = createElement('p', {textContent: 'blablabla'});
-    const time = createElement('p', {textContent: '12:12'});
-    const card = createElement('div', {className: 'card'}, [text, time]);
-    return card;
-  }
-  const cardsContainer = createElement('div', {className: 'card-container'}, [createCard(), createCard(), createCard()]);
+  const cardsContainer = createElement('div', {className: 'card-container', id: 'cardContainer'}, []);
   const mainDiv = createElement('div', {className: 'main-div'}, [heading , divider, cardsContainer]);
+
+
+  fillWithUserCards();
 
   return mainDiv;
 }

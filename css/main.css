@@ -1,6 +1,7 @@
 .main-div {
   width: 40%;
   min-width: 300px;
+  min-height: 60px;
   margin: 30px auto;
   border: 1px solid gray;
   border-radius: 10px;
@@ -95,12 +96,32 @@ form link {
   margin-top: 10px;
 }
 
-.modal .btnDiv button{
+.leftCardDiv {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  height: 30px;
+  margin: auto 0;
+}
+
+.leftCardDiv p {
+  margin: auto;
+}
+
+#activeAlarmModal .btnDiv {
+  justify-content: center;
+}
+
+.modal .btnDiv button {
   height: 40px;
   border: 1px solid gray;
   border-radius: 5px;
   font-size: large;
   padding: 0 15px;
+}
+
+#alarmBody p {
+  text-align: center;
 }
 
 .card-container {

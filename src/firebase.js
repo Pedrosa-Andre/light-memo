@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, set, onValue, remove } from "firebase/database";
+import { getDatabase, ref, set, get, onValue, child, remove } from "firebase/database";
 import { getUserKey } from "./utils";
 
 // Your web app's Firebase configuration
@@ -22,16 +22,12 @@ export const auth = getAuth(app);
 export const database = getDatabase(app);
 
 // DEBUG
-function writeUserData(userId) {
-  const db = getDatabase();
-  set(ref(db, 'users/' + userId), {
-    reminders: {
-      
-    }
-  });
-}
+// function writeUserData(userId) {
+//   set(ref(database, 'users/' + userId), {
+//   });
+// }
 
-// DEBUG keep
+// DEBUG
 const starCountRef = ref(database, 'users/' + getUserKey());
 onValue(starCountRef, (snapshot) => {
   const data = snapshot.val();
@@ -40,8 +36,7 @@ onValue(starCountRef, (snapshot) => {
 });
 
 // DEBUG
-const starCountRef2 = ref(database);
-onValue(starCountRef2, (snapshot) => {
+onValue(ref(database), (snapshot) => {
   const data = snapshot.val();
   console.log(data);
 });
@@ -56,4 +51,33 @@ export function createReminder(userKey, title, message, time) {
   ).catch((error) => {
     console.log('FAILURE at createReminder(): ' + error.message);
   });
+}
+
+export function removeReminder(userKey, reminderKey) {
+  debugger
+  remove(ref(database, 'users/' + userKey + '/reminders/' + reminderKey), {
+  });
+}
+
+export async function getUserReminders(userKey) {
+  let allUserReminders;
+  await get(child(ref(database), 'users/' + userKey + '/reminders')).then((snapshot) => {
+    if (snapshot.exists()) {
+      allUserReminders = Object.entries(snapshot.val()).sort((a, b) => {
+        // Sort reminders by time.
+        let timeA = a[1]['remTime'],
+            timeB = b[1]['remTime'];
+        if (timeA < timeB) return -1;
+        if (timeA > timeB) return 1;
+        return 0;
+      });
+    } else {
+      console.log("No data available");
+      return;
+    }
+  }).catch((error) => {
+    console.error(error);
+    return;
+  });
+  return allUserReminders;
 }
